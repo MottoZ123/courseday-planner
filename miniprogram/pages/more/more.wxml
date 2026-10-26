@@ -1,0 +1,13 @@
+<view class="container">
+  <view class="h1">更多</view><view class="muted">Academic Year {{meta.academicYear}}</view>
+  <view class="card menu">
+    <view class="list-item" data-url="/pages/courses/courses" bindtap="go"><view class="between"><view><view class="h2">课程</view><view class="tiny">10门最终课程与全部场次</view></view><text>›</text></view></view>
+    <view class="list-item" data-url="/pages/exams/exams" bindtap="go"><view class="between"><view><view class="h2">考试中心</view><view class="tiny">官方考试 + 自定义考试</view></view><text>›</text></view></view>
+    <view class="list-item" data-url="/pages/personal/personal" bindtap="go"><view class="between"><view><view class="h2">个人事件</view><view class="tiny">旅行、面试、聚餐与私人安排</view></view><text>›</text></view></view>
+    <view class="list-item" data-url="/pages/adjustments/adjustments" bindtap="go"><view class="between"><view><view class="h2">临时调课</view><view class="tiny">单节课程改期、改时、换教室或停课</view></view><text>›</text></view></view>
+    <view class="list-item" data-url="/pages/free/free" bindtap="go"><view class="between"><view><view class="h2">空闲窗口</view><view class="tiny">课程与个人事件共同参与判断</view></view><text>›</text></view></view>
+    <view class="list-item" data-url="/pages/modules/modules" bindtap="go"><view class="between"><view><view class="h2">Module Dashboard</view><view class="tiny">进度与课程负担</view></view><text>›</text></view></view>
+    <view class="list-item" data-url="/pages/settings/settings" bindtap="go"><view class="between"><view><view class="h2">设置</view><view class="tiny">Tutorial分组与版本信息</view></view><text>›</text></view></view>
+  </view>
+  <view class="card version-card"><view class="tiny">TIMETABLE VERSION</view><view class="h2">{{meta.version}}</view><view class="muted">{{meta.source}}</view></view>
+</view>

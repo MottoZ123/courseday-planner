@@ -1,0 +1,72 @@
+<view class="container">
+  <view class="week-head">
+    <view class="icon-btn" bindtap="prev">‹</view>
+    <view class="week-title"><view class="h2">{{weekLabel}}</view><view class="tiny" bindtap="today">回到本周</view></view>
+    <view class="icon-btn" bindtap="next">›</view>
+  </view>
+
+  <view class="pill-tabs mode-tabs">
+    <view class="pill {{mode==='actual'?'active':''}}" data-mode="actual" bindtap="setMode">实际周</view>
+    <view class="pill {{mode==='module'?'active':''}}" data-mode="module" bindtap="setMode">Module模板</view>
+    <view class="pill {{mode==='free'?'active':''}}" data-mode="free" bindtap="setMode">空闲时间</view>
+  </view>
+
+  <view wx:if="{{mode==='actual'}}">
+    <scroll-view scroll-x class="day-strip" show-scrollbar="false">
+      <view class="day-strip-inner">
+        <view wx:for="{{days}}" wx:key="date" class="day-chip {{item.date===selectedDate?'active':''}} {{item.isToday?'today':''}}" data-date="{{item.date}}" bindtap="selectDay">
+          <view class="day-week">{{item.weekdayShort}}</view>
+          <view class="day-number">{{item.dayNumber}}</view>
+          <view class="day-count">{{item.events.length ? item.events.length+'项' : '空闲'}}</view>
+        </view>
+      </view>
+    </scroll-view>
+
+    <view class="selected-day-head">
+      <view><view class="section-title">DAY SCHEDULE</view><view class="h2">{{selectedDay.weekday}} · {{selectedDay.short}}</view></view>
+      <view class="badge">{{selectedDay.events.length}} 项</view>
+    </view>
+
+    <view class="card timeline-card">
+      <view wx:if="{{selectedDay.events.length}}" class="timeline">
+        <view wx:for="{{selectedDay.events}}" wx:key="id" class="timeline-item" bindtap="openCourse" data-code="{{item.courseCode}}">
+          <view class="time-col"><view class="time-start">{{item.startTime || 'TBC'}}</view><view class="tiny">{{item.endTime || ''}}</view></view>
+          <view class="timeline-line"><view class="timeline-dot" style="background:{{item.type==='exam'?'#E11D48':item.color}}"></view><view class="line-tail"></view></view>
+          <view class="event-body {{item.type==='exam'?'exam-body':''}}">
+            <view class="between"><view class="h3">{{item.courseCode || item.code}} {{item.displayName}}</view><view class="chip-row"><view wx:if="{{item.rescheduled}}" class="badge purple">已调课</view><view wx:if="{{item.source==='custom'}}" class="badge purple">个人添加</view><view class="badge {{item.type==='exam'?'warn':''}}">{{item.type}}</view></view></view>
+            <view class="event-meta">{{item.venue || '地点待确认'}}</view>
+            <view wx:if="{{item.note}}" class="tiny note">{{item.note}}</view>
+          </view>
+        </view>
+      </view>
+      <view wx:else class="empty">这一天没有固定课程或考试。</view>
+    </view>
+  </view>
+
+  <view wx:if="{{mode==='module'}}">
+    <view class="module-summary card compact">
+      <view class="between"><view><view class="tiny">CURRENT MODULE</view><view class="h2">{{module ? module.name : '当前不在Module内'}}</view></view><view wx:if="{{module}}" class="badge">{{module.start}} → {{module.end}}</view></view>
+    </view>
+    <view wx:if="{{pattern.length}}">
+      <view wx:for="{{patternByDay}}" wx:key="weekday" class="card pattern-day">
+        <view class="between"><view class="h2">{{item.weekday}}</view><view class="badge">{{item.items.length}} 个时段</view></view>
+        <view wx:for="{{item.items}}" wx:key="courseCode" class="pattern-row">
+          <view class="pattern-time">{{item.startTime}}<view class="tiny">{{item.endTime}}</view></view>
+          <view class="pattern-color" style="background:{{item.color}}"></view>
+          <view class="pattern-main"><view class="h3">{{item.courseCode}}</view><view class="muted">{{item.title}}</view></view>
+          <view class="badge">×{{item.count}}</view>
+        </view>
+      </view>
+    </view>
+    <view wx:else class="card empty">本阶段没有可聚合的固定大课。</view>
+  </view>
+
+  <view wx:if="{{mode==='free'}}">
+    <view class="free-hint card compact"><view class="tiny">FREE TIME</view><view class="muted">09:00–22:00内，已同时考虑调课后的实际课程、自定义考试与会占用空闲时间的个人事件。</view></view>
+    <view wx:for="{{days}}" wx:key="date" class="card free-day">
+      <view class="between"><view><view class="h2">{{item.weekday}} {{item.short}}</view><view class="tiny">{{item.date}}</view></view><view class="badge">{{item.free.length}} 段</view></view>
+      <view wx:for="{{item.free}}" wx:key="*this" class="free-block">{{item}}</view>
+      <view wx:if="{{!item.free.length}}" class="muted no-free">09:00–22:00内无连续1小时空档</view>
+    </view>
+  </view>
+</view>

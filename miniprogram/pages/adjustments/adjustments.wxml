@@ -1,0 +1,60 @@
+<view class="container">
+  <view class="page-head">
+    <view><view class="h1">临时调课</view><view class="muted">只覆盖某一节具体课程，不修改公共课表源文件</view></view>
+    <view class="btn small" bindtap="openNew">＋ 新建调整</view>
+  </view>
+
+  <view class="card compact info-card">
+    <view class="tiny">HOW IT WORKS</view>
+    <view class="muted">选择一节官方课程后，可改日期、时间、地点，或标记本次停课。调整会立即反映在 Today、周课表、日历、课程详情和 Free Window；删除调整即可恢复官方原安排。</view>
+  </view>
+
+  <view wx:if="{{showForm}}" class="editor-mask">
+    <view class="editor-sheet">
+      <view class="between editor-head"><view><view class="h2">{{editingId?'编辑临时调整':'新增临时调整'}}</view><view class="tiny">一次只处理一节具体场次</view></view><view class="close" bindtap="cancelForm">×</view></view>
+
+      <view class="form-label">课程</view>
+      <picker mode="selector" range="{{courseOptions}}" value="{{courseIndex}}" bindchange="coursePick"><view class="input picker-value">{{courseOptions[courseIndex] || '暂无课程'}}</view></picker>
+
+      <view class="form-label">要调整的原始场次</view>
+      <picker mode="selector" range="{{sessionOptions}}" value="{{sessionIndex}}" bindchange="sessionPick"><view class="input session-picker">{{sessionOptions[sessionIndex] || '暂无可调整场次'}}</view></picker>
+
+      <view wx:if="{{selectedOfficial}}" class="original-card">
+        <view class="between"><view class="tiny">OFFICIAL ORIGINAL</view><view class="badge">{{selectedOfficial.type}}</view></view>
+        <view class="h3">{{selectedOfficial.courseCode}} {{selectedOfficial.displayName}}</view>
+        <view class="event-meta">{{selectedOfficial.date}} · {{selectedOfficial.timeText}} · {{selectedOfficial.venue || '地点待确认'}}</view>
+      </view>
+
+      <view class="form-label">调整方式</view>
+      <picker mode="selector" range="{{changeTypeOptions}}" value="{{changeTypeIndex}}" bindchange="changeTypePick"><view class="input picker-value">{{changeTypeOptions[changeTypeIndex]}}</view></picker>
+
+      <view wx:if="{{form.changeType!=='cancel'}}" class="adjust-panel">
+        <view class="form-label">调整后日期</view>
+        <picker mode="date" value="{{form.newDate}}" bindchange="bindNewDate"><view class="input picker-value">{{form.newDate}}</view></picker>
+        <view class="form-grid">
+          <view class="form-cell"><view class="form-label">开始时间</view><picker mode="time" value="{{form.newStartTime}}" bindchange="bindNewStart"><view class="input">{{form.newStartTime}}</view></picker></view>
+          <view class="form-cell"><view class="form-label">结束时间</view><picker mode="time" value="{{form.newEndTime}}" bindchange="bindNewEnd"><view class="input">{{form.newEndTime}}</view></picker></view>
+        </view>
+        <view class="form-label">调整后地点</view>
+        <input class="input" placeholder="例如：CP-D / Zoom / TBC" value="{{form.newVenue}}" bindinput="bindNewVenue"/>
+      </view>
+
+      <view wx:else class="cancel-warning"><view class="h3">本次课程将从实际日程中移除</view><view class="tiny">公共官方数据仍保留；删除这条调整即可恢复。</view></view>
+
+      <view class="form-label">调整说明</view>
+      <textarea class="input" placeholder="例如：老师通知改至周五晚上；教室临时更换" value="{{form.note}}" bindinput="bindNote"/>
+      <view class="editor-actions"><view class="btn secondary" bindtap="cancelForm">取消</view><view class="btn" bindtap="saveAdjustment">保存并生效</view></view>
+    </view>
+  </view>
+
+  <view class="section-title">ACTIVE ADJUSTMENTS</view>
+  <view wx:for="{{adjustments}}" wx:key="id" class="card adjustment-card {{item.changeType==='cancel'?'cancelled':''}}">
+    <view class="between"><view><view class="tiny">{{item.courseCode}}</view><view class="h2">{{item.title}}</view></view><view class="badge {{item.changeType==='cancel'?'warn':'purple'}}">{{item.changeLabel}}</view></view>
+    <view class="compare-row"><view class="compare-label">原</view><view class="compare-text">{{item.originalText}}</view></view>
+    <view class="compare-row"><view class="compare-label new">新</view><view class="compare-text">{{item.newText}}</view></view>
+    <view wx:if="{{item.note}}" class="note">{{item.note}}</view>
+    <view class="actions"><view class="edit-link" data-id="{{item.id}}" bindtap="editAdjustment">编辑</view><view class="delete-link" data-id="{{item.id}}" bindtap="removeAdjustment">恢复原安排</view></view>
+  </view>
+  <view wx:if="{{!adjustments.length}}" class="card empty">目前没有临时调课记录。学校临时改课时，可在这里覆盖单节课程。</view>
+  <view class="safe-bottom"></view>
+</view>

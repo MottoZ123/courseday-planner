@@ -1,0 +1,25 @@
+<view class="container">
+  <view class="h1">空闲窗口</view>
+  <view class="muted">连续2天以上没有实际课程、Tutorial、考试或会阻塞空闲判断的个人事件</view>
+
+  <view class="card compact rule-card">
+    <view class="tiny">HOW IT WORKS</view>
+    <view class="muted">临时调课会先覆盖官方原场次，自定义考试也会占用对应时间/日期；个人事件默认占用对应日期，可关闭“影响空闲窗口”。DDL不会直接切断窗口，但会降低推荐星级。</view>
+  </view>
+
+  <view wx:for="{{windows}}" wx:key="start" class="card window-card">
+    <view class="between">
+      <view class="window-main">
+        <view class="tiny">{{item.days}} DAYS FREE</view>
+        <view class="h2">{{item.start}} → {{item.end}}</view>
+      </view>
+      <view class="stars">{{item.label}}</view>
+    </view>
+    <view class="window-meta">
+      <view class="metric"><view class="metric-num">{{item.deadlines}}</view><view class="tiny">窗口内DDL</view></view>
+      <view class="metric"><view class="metric-num">{{item.personalCount}}</view><view class="tiny">不阻塞个人事件</view></view>
+      <view class="metric"><view class="metric-num">{{item.score}}/5</view><view class="tiny">旅行评分</view></view>
+    </view>
+  </view>
+  <view wx:if="{{!windows.length}}" class="card empty">没有后续连续空闲窗口。</view>
+</view>

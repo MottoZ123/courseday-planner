@@ -1,0 +1,61 @@
+<view class="container">
+  <view class="page-head">
+    <view>
+      <view class="h1">考试中心</view>
+      <view class="muted">官方考试 + 个人自定义考试</view>
+    </view>
+    <view class="btn small" bindtap="openNew">＋ 新增考试</view>
+  </view>
+
+  <view class="card compact exam-hint">
+    <view class="between"><view><view class="tiny">LOCAL EXAMS</view><view class="h3">临时 Quiz、补考、Presentation 都可自行加入</view></view><view class="badge purple">仅本机</view></view>
+    <view class="tiny hint-text">个人添加的考试会同步进入 Today、周课表、月历、考试倒计时与 Free Window。</view>
+  </view>
+
+  <view wx:if="{{showForm}}" class="editor-mask">
+    <view class="editor-sheet">
+      <view class="between editor-head">
+        <view><view class="h2">{{editingId ? '编辑自定义考试' : '新增考试'}}</view><view class="tiny">不会修改学校官方考试数据</view></view>
+        <view class="close" bindtap="cancelForm">×</view>
+      </view>
+
+      <view class="form-label">关联课程</view>
+      <picker mode="selector" range="{{courseOptions}}" value="{{courseIndex}}" bindchange="coursePick"><view class="input picker-value">{{courseOptions[courseIndex]}}</view></picker>
+
+      <view class="form-grid">
+        <view class="form-cell"><view class="form-label">考试类型</view><picker mode="selector" range="{{examTypeOptions}}" value="{{typeIndex}}" bindchange="typePick"><view class="input picker-value">{{examTypeOptions[typeIndex]}}</view></picker></view>
+        <view class="form-cell"><view class="form-label">日期</view><picker mode="date" value="{{form.date}}" bindchange="bindDate"><view class="input picker-value">{{form.date}}</view></picker></view>
+      </view>
+
+      <view class="form-label">考试名称</view>
+      <input class="input" placeholder="例如：Quiz 1 / Mid-Term / 补考" value="{{form.title}}" bindinput="bindTitle"/>
+
+      <view class="form-grid">
+        <view class="form-cell"><view class="form-label">开始时间</view><picker mode="time" value="{{form.startTime}}" bindchange="bindStart"><view class="input">{{form.startTime}}</view></picker></view>
+        <view class="form-cell"><view class="form-label">结束时间</view><picker mode="time" value="{{form.endTime}}" bindchange="bindEnd"><view class="input">{{form.endTime}}</view></picker></view>
+      </view>
+
+      <view class="form-label">地点</view>
+      <input class="input" placeholder="例如：CP-D / Zoom / TBC" value="{{form.venue}}" bindinput="bindVenue"/>
+      <view class="form-label">备注</view>
+      <textarea class="input" placeholder="可选：范围、携带材料、特殊说明等" value="{{form.note}}" bindinput="bindNote"/>
+
+      <view class="editor-actions"><view class="btn secondary" bindtap="cancelForm">取消</view><view class="btn" bindtap="saveExam">{{editingId ? '保存修改' : '保存考试'}}</view></view>
+    </view>
+  </view>
+
+  <view wx:for="{{exams}}" wx:key="id" class="card exam-card {{item.isCustom?'custom-exam':''}}">
+    <view class="between">
+      <view class="exam-main">
+        <view class="chip-row"><view class="tiny">{{item.countdownText}}</view><view class="badge {{item.isCustom?'purple':''}}">{{item.sourceLabel}}</view></view>
+        <view class="h2">{{item.courseCode || 'EXAM'}} {{item.title}}</view>
+      </view>
+      <view class="exam-date">{{item.date}}</view>
+    </view>
+    <view class="event-meta">{{item.timeText}} · {{item.venue || '地点待确认'}}</view>
+    <view wx:if="{{item.note}}" class="exam-note">{{item.note}}</view>
+    <view wx:if="{{item.isCustom}}" class="custom-actions"><view class="edit-link" data-id="{{item.id}}" bindtap="editExam">编辑</view><view class="delete-link" data-id="{{item.id}}" bindtap="removeExam">删除</view></view>
+  </view>
+  <view wx:if="{{!exams.length}}" class="card empty">暂无考试记录。</view>
+  <view class="safe-bottom"></view>
+</view>

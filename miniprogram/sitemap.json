@@ -1,0 +1,9 @@
+{
+  "desc": "Private planner",
+  "rules": [
+    {
+      "action": "disallow",
+      "page": "*"
+    }
+  ]
+}

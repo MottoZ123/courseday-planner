@@ -1,0 +1,2 @@
+.rule-card{margin-top:22rpx;background:#F8FAFC}.window-card{padding:22rpx}.window-main{min-width:0}.stars{font-size:24rpx;color:#D97706;white-space:nowrap}.window-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:8rpx;margin-top:20rpx;padding-top:17rpx;border-top:1rpx solid #EDF1F5}.metric{text-align:center}.metric-num{font-size:27rpx;font-weight:850;margin-bottom:3rpx}
+@media (max-width:360px){.window-meta{gap:4rpx}.metric-num{font-size:24rpx}.stars{font-size:21rpx}}

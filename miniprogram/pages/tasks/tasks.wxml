@@ -1,0 +1,115 @@
+<view class="container">
+  <view class="page-head">
+    <view>
+      <view class="h1">任务</view>
+      <view class="muted">DDL · Project · Study</view>
+    </view>
+    <view class="btn small" bindtap="openNew">＋ 新建</view>
+  </view>
+
+  <view class="pill-tabs filters">
+    <view class="pill {{filter==='open'?'active':''}}" data-filter="open" bindtap="setFilter">进行中</view>
+    <view class="pill {{filter==='all'?'active':''}}" data-filter="all" bindtap="setFilter">全部</view>
+    <view class="pill {{filter==='done'?'active':''}}" data-filter="done" bindtap="setFilter">已完成</view>
+  </view>
+
+  <view wx:if="{{showForm}}" class="editor-mask">
+    <view class="editor-sheet">
+      <view class="between editor-head">
+        <view>
+          <view class="h2">{{editingId ? '编辑任务' : '新建任务'}}</view>
+          <view class="tiny">所有字段都可以之后再次修改</view>
+        </view>
+        <view class="close" bindtap="cancelForm">×</view>
+      </view>
+
+      <view class="form-label">任务名称</view>
+      <input class="input" placeholder="例如：Database Project" value="{{form.title}}" bindinput="bindTitle"/>
+
+      <view class="form-grid">
+        <view class="form-cell">
+          <view class="form-label">关联课程</view>
+          <picker mode="selector" range="{{courses}}" range-key="nameZh" value="{{courseIndex}}" bindchange="coursePick">
+            <view class="input picker-value">{{courses[courseIndex].nameZh}}</view>
+          </picker>
+        </view>
+        <view class="form-cell">
+          <view class="form-label">任务类型</view>
+          <picker mode="selector" range="{{typeOptions}}" value="{{typeIndex}}" bindchange="typePick">
+            <view class="input picker-value">{{typeOptions[typeIndex]}}</view>
+          </picker>
+        </view>
+      </view>
+
+      <view class="form-grid">
+        <view class="form-cell">
+          <view class="form-label">截止日期</view>
+          <picker mode="date" value="{{form.dueDate}}" bindchange="bindDate">
+            <view class="input picker-value">{{form.dueDate || '请选择'}}</view>
+          </picker>
+        </view>
+        <view class="form-cell">
+          <view class="form-label">截止时间</view>
+          <picker mode="time" value="{{form.dueTime}}" bindchange="bindTime">
+            <view class="input picker-value">{{form.dueTime}}</view>
+          </picker>
+        </view>
+      </view>
+
+      <view class="form-grid">
+        <view class="form-cell">
+          <view class="form-label">优先级</view>
+          <picker mode="selector" range="{{priorityOptions}}" value="{{priorityIndex}}" bindchange="priorityPick">
+            <view class="input picker-value">{{priorityOptions[priorityIndex]}}</view>
+          </picker>
+        </view>
+        <view class="form-cell">
+          <view class="form-label">完成进度</view>
+          <picker mode="selector" range="{{progressOptions}}" value="{{progressIndex}}" bindchange="progressPick">
+            <view class="input picker-value">{{progressOptions[progressIndex]}}%</view>
+          </picker>
+        </view>
+      </view>
+
+      <view class="form-label">备注</view>
+      <textarea class="input" placeholder="可选：分工、提交要求、链接等" bindinput="bindNote" value="{{form.note}}"/>
+
+      <view class="editor-actions">
+        <view class="btn secondary" bindtap="cancelForm">取消</view>
+        <view class="btn" bindtap="saveTask">{{editingId ? '保存修改' : '保存任务'}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{tasks.length}}" class="task-list">
+    <view wx:for="{{tasks}}" wx:key="id" class="card task">
+      <view class="between top-row">
+        <view class="task-main">
+          <view class="h2 task-title">{{item.title}}</view>
+          <view class="chip-row task-chips">
+            <view class="badge">{{item.courseCode || 'Personal'}}</view>
+            <view class="badge">{{item.type}}</view>
+            <view class="badge {{item.priority==='high'?'warn':''}}">{{item.priority}}</view>
+          </view>
+        </view>
+        <view class="edit-link" data-id="{{item.id}}" bindtap="editTask">编辑</view>
+      </view>
+
+      <view class="due-row">
+        <view class="due-date">{{item.dueDate}}</view>
+        <view class="muted">{{item.dueTime || ''}}</view>
+      </view>
+      <view wx:if="{{item.note}}" class="note">{{item.note}}</view>
+      <view class="progress"><view class="progress-fill" style="width:{{item.progress}}%"></view></view>
+      <view class="between task-foot">
+        <view class="tiny">{{item.progress}}% · {{item.status}}</view>
+        <view class="row">
+          <view wx:if="{{item.status!=='done'}}" class="btn ghost small" data-id="{{item.id}}" bindtap="advance">+25%</view>
+          <view class="btn danger small" data-id="{{item.id}}" bindtap="remove">删除</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view wx:else class="card empty">当前没有任务。<br/>点击右上角“新建”添加第一个DDL。</view>
+  <view class="safe-bottom"></view>
+</view>

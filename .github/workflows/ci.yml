@@ -1,0 +1,27 @@
+name: Static validation
+permissions:
+  contents: read
+on:
+  push:
+  pull_request:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate timetable
+        run: python tools/validate_schedule.py
+      - name: Runtime regression
+        run: node tools/smoke_test.js
+      - name: Privacy regression
+        run: node tools/privacy_test.js
+      - name: Syntax and repo scan
+        run: python tools/prepublish_check.py
+      - name: Complete offline gate
+        run: python tools/workflow.py test

@@ -1,0 +1,20 @@
+<view wx:if="{{settings}}" class="container">
+  <view class="h1">设置</view>
+  <view class="section-title">TUTORIAL GROUP</view>
+  <view class="card">
+    <view class="list-item"><view class="between"><view>PMAA7001</view><picker mode="selector" range="{{groupsA}}" value="{{settings.tutorialGroups.PMAA7001==='A1'?1:settings.tutorialGroups.PMAA7001==='A2'?2:settings.tutorialGroups.PMAA7001==='A3'?3:0}}" data-code="PMAA7001" bindchange="pick"><view class="badge">{{settings.tutorialGroups.PMAA7001 || '未确定'}}</view></picker></view></view>
+    <view class="list-item"><view class="between"><view>PMAA7003</view><picker mode="selector" range="{{groupsA}}" value="{{settings.tutorialGroups.PMAA7003==='A1'?1:settings.tutorialGroups.PMAA7003==='A2'?2:settings.tutorialGroups.PMAA7003==='A3'?3:0}}" data-code="PMAA7003" bindchange="pick"><view class="badge">{{settings.tutorialGroups.PMAA7003 || '未确定'}}</view></picker></view></view>
+    <view class="list-item"><view><view class="h3">其他 Tutorial</view><view class="tiny">最新上传课表对 PMAA7005 / PMAA7013 / PMAA7019 / PMAA7004 只标注 Tutorial 候选时段，没有给出具体组别与子时段。应用按课表直接显示这些候选窗口，但不会把它们计入硬占用或 Free Window。</view></view></view>
+    <view class="list-item"><view class="between"><view><view>未确定分组时显示全部候选</view><view class="tiny">仅针对 PMAA7001 / PMAA7003：关闭后，未选择组时不显示分组候选</view></view><switch checked="{{settings.showUnknownTutorials}}" bindchange="toggleUnknown" color="#0F172A"/></view></view>
+  </view>
+
+  <view class="section-title">LOCAL DATA</view>
+  <view class="card">
+    <view class="list-item"><view><view class="h3">任务</view><view class="tiny">Assignment / Project / Study</view></view><view class="btn danger small clear-btn" bindtap="clearTasks">清空任务</view></view>
+    <view class="list-item"><view><view class="h3">个人事件</view><view class="tiny">旅行、面试与其他私人日程</view></view><view class="btn danger small clear-btn" bindtap="clearPersonal">清空事件</view></view>
+    <view class="list-item"><view><view class="h3">隐私与本机数据</view><view class="tiny">清理个人任务、事件、考试、调课和 Tutorial 设置；不影响示例课表。</view></view><view class="btn danger small clear-btn" bindtap="clearAllLocal">全部清空</view></view>
+  </view>
+
+  <view class="section-title">VERSION</view>
+  <view class="card version-card"><view class="h2">{{meta.version}}</view><view class="muted">{{meta.source}}</view><view class="tiny">Updated {{meta.updatedAt}}</view></view>
+</view>

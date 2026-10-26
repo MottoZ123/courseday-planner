@@ -1,0 +1,57 @@
+<view class="container">
+  <view class="today-head">
+    <view><view class="h1">{{today}}</view><view class="muted">{{weekday}} · {{module ? module.name : '学年日程'}}</view></view>
+    <view class="load-chip"><view class="tiny">本周课堂</view><view class="load-num">{{weekLoad}}h</view></view>
+  </view>
+
+  <view wx:if="{{moduleStats}}" class="card module-card compact">
+    <view class="between"><view><view class="tiny">{{moduleStats.subtitle}}</view><view class="h2">{{moduleStats.name}}</view></view><view class="badge">{{moduleStats.progress}}%</view></view>
+    <view class="progress module-progress"><view class="progress-fill" style="width:{{moduleStats.progress}}%"></view></view>
+    <view class="between module-foot"><view class="tiny">{{moduleStats.start}}</view><view class="tiny">{{moduleStats.end}}</view></view>
+  </view>
+
+  <view wx:if="{{next}}" class="card next-card" bindtap="openCourse" data-code="{{next.courseCode}}">
+    <view class="between"><view class="section-label">NEXT CLASS</view><view class="next-date">{{next.date}}</view></view>
+    <view class="next-time">{{next.startTime}}</view>
+    <view class="next-course">{{next.courseCode || next.code}}</view>
+    <view class="next-name">{{next.displayName}}</view>
+    <view class="next-meta"><text>{{next.venue || '地点待确认'}}</text><text class="countdown">还有 {{countdown}}</text></view>
+  </view>
+  <view wx:else class="card"><view class="h2">暂无后续固定课程</view><view class="muted">已没有可计算的下一节硬日程。</view></view>
+
+  <view class="section-title">TODAY</view>
+  <view class="card today-card">
+    <view wx:if="{{todayEvents.length}}">
+      <view wx:for="{{todayEvents}}" wx:key="id" class="today-event" bindtap="openCourse" data-code="{{item.courseCode}}">
+        <view class="today-time"><view class="time-main">{{item.startTime || 'TBC'}}</view><view class="tiny">{{item.endTime || ''}}</view></view>
+        <view class="today-bar" style="background:{{item.type==='exam'?'#E11D48':item.color}}"></view>
+        <view class="today-body"><view class="between"><view class="h3">{{item.courseCode || item.code}} {{item.displayName}}</view><view class="chip-row"><view wx:if="{{item.rescheduled}}" class="badge purple">已调课</view><view wx:if="{{item.source==='custom'}}" class="badge purple">个人添加</view><view class="badge {{item.type==='exam'?'warn':''}}">{{item.type}}</view></view></view><view class="event-meta">{{item.venue || '地点待确认'}}</view><view wx:if="{{item.note}}" class="tiny">{{item.note}}</view></view>
+      </view>
+    </view>
+    <view wx:else class="empty compact-empty">今天没有固定课程 / 考试</view>
+  </view>
+
+  <view class="section-title">UPCOMING</view>
+  <view class="upcoming-grid">
+    <view class="card mini-card" bindtap="openTasks">
+      <view class="tiny">TASKS</view>
+      <view class="metric-big">{{tasks.length}}</view>
+      <view wx:if="{{tasks.length}}" class="mini-desc">最近：{{tasks[0].title}}<br/>{{tasks[0].dueDate}}</view>
+      <view wx:else class="mini-desc">暂无未完成DDL</view>
+    </view>
+    <view class="card mini-card" bindtap="openExams">
+      <view class="tiny">NEXT EXAM</view>
+      <view class="metric-big">{{nextExam ? (nextExam.courseCode || 'EXAM') : '—'}}</view>
+      <view wx:if="{{nextExam}}" class="mini-desc">{{nextExam.date}}<br/>{{nextExam.timeText}}</view>
+      <view wx:else class="mini-desc">暂无后续考试</view>
+    </view>
+  </view>
+
+  <view wx:if="{{tasks.length}}" class="card task-preview">
+    <view class="between"><view class="h2">最近任务</view><view class="tiny" bindtap="openTasks">查看全部 ›</view></view>
+    <view wx:for="{{tasks}}" wx:key="id" class="list-item" bindtap="openTasks">
+      <view class="between"><view class="task-preview-title">{{item.title}}</view><view class="badge">{{item.dueDate}}</view></view>
+      <view class="tiny">{{item.courseCode || 'Personal'}} · {{item.priority}}</view>
+    </view>
+  </view>
+</view>

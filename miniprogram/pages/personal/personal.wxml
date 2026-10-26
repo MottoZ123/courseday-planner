@@ -1,0 +1,185 @@
+<view class="container">
+  <view class="page-head">
+    <view>
+      <view class="h1">个人事件</view>
+      <view class="muted">单次 · 连续多日 · 离散日期</view>
+    </view>
+    <view class="btn small" bindtap="openNew">＋ 新建</view>
+  </view>
+
+  <view class="summary card compact">
+    <view class="between">
+      <view><view class="tiny">PRIVATE EVENTS</view><view class="h2">{{events.length}} 组事件</view></view>
+      <view class="badge purple">仅保存在本机</view>
+    </view>
+  </view>
+
+  <view class="quick-tools">
+    <view class="tool-card" bindtap="openExam">
+      <view class="tool-icon exam-tool">考</view>
+      <view class="tool-main"><view class="h3">新增考试</view><view class="tiny">已添加 {{customExamCount}} 项 · 同步到考试中心</view></view>
+      <view class="tool-arrow">›</view>
+    </view>
+    <view class="tool-card" bindtap="openAdjustments">
+      <view class="tool-icon adjust-tool">调</view>
+      <view class="tool-main"><view class="h3">临时调课</view><view class="tiny">当前 {{adjustmentCount}} 条 · 改时间/地点或停课</view></view>
+      <view class="tool-arrow">›</view>
+    </view>
+  </view>
+
+  <view wx:if="{{showForm}}" class="editor-mask">
+    <view class="editor-sheet">
+      <view class="between editor-head">
+        <view>
+          <view class="h2">{{editingId ? '编辑个人事件' : '新建个人事件'}}</view>
+          <view class="tiny">一个事件可覆盖连续多日或多个离散日期</view>
+        </view>
+        <view class="close" bindtap="cancelForm">×</view>
+      </view>
+
+      <view class="form-label">事件名称</view>
+      <input class="input" placeholder="例如：东京旅行 / 面试 / 固定训练" value="{{form.title}}" bindinput="bindTitle"/>
+
+      <view class="form-grid">
+        <view class="form-cell">
+          <view class="form-label">时间安排</view>
+          <picker mode="selector" range="{{scheduleTypeOptions}}" value="{{scheduleTypeIndex}}" bindchange="scheduleTypePick">
+            <view class="input picker-value">{{scheduleTypeOptions[scheduleTypeIndex]}}</view>
+          </picker>
+        </view>
+        <view class="form-cell">
+          <view class="form-label">类型</view>
+          <picker mode="selector" range="{{categoryOptions}}" value="{{categoryIndex}}" bindchange="categoryPick">
+            <view class="input picker-value">{{categoryOptions[categoryIndex]}}</view>
+          </picker>
+        </view>
+      </view>
+
+      <!-- 单次 -->
+      <view wx:if="{{form.scheduleType==='single'}}" class="schedule-panel">
+        <view class="schedule-panel-title">单次事件</view>
+        <view class="tiny">适合聚餐、面试、就医、会议等只发生一次的安排</view>
+        <view class="form-label">日期</view>
+        <picker mode="date" value="{{form.date}}" bindchange="bindDate"><view class="input picker-value">{{form.date || '请选择'}}</view></picker>
+      </view>
+
+      <!-- 连续多日 -->
+      <view wx:if="{{form.scheduleType==='continuous'}}" class="schedule-panel">
+        <view class="schedule-panel-title">连续多日</view>
+        <view class="tiny">按自然日计算。例如开始日 3/11、持续 5 天，则占用 3/11–3/15。</view>
+        <view class="form-grid continuous-grid">
+          <view class="form-cell">
+            <view class="form-label">开始日期</view>
+            <picker mode="date" value="{{form.startDate}}" bindchange="bindStartDate"><view class="input picker-value">{{form.startDate}}</view></picker>
+          </view>
+          <view class="form-cell">
+            <view class="form-label">持续天数</view>
+            <view class="duration-control">
+              <view class="step-btn" bindtap="durationMinus">−</view>
+              <input class="duration-input" type="number" value="{{form.durationDays}}" bindinput="bindDuration"/>
+              <view class="duration-unit">天</view>
+              <view class="step-btn" bindtap="durationPlus">＋</view>
+            </view>
+          </view>
+        </view>
+        <view class="range-preview">
+          <view class="tiny">自动结束日期</view>
+          <view class="h3">{{form.startDate}} → {{form.endDatePreview}}</view>
+        </view>
+      </view>
+
+      <!-- 离散日期 -->
+      <view wx:if="{{form.scheduleType==='discrete'}}" class="schedule-panel">
+        <view class="between">
+          <view>
+            <view class="schedule-panel-title">离散日期</view>
+            <view class="tiny">适合不连续的训练、面试、固定活动；点击日历可多选。</view>
+          </view>
+          <view wx:if="{{form.dates.length}}" class="clear-dates" bindtap="clearDiscreteDates">清空</view>
+        </view>
+
+        <view class="mini-calendar">
+          <view class="mini-calendar-head">
+            <view class="mini-nav" bindtap="discretePrev">‹</view>
+            <view class="h3">{{discreteTitle}}</view>
+            <view class="mini-nav" bindtap="discreteNext">›</view>
+          </view>
+          <view class="mini-weeknames"><view wx:for="{{weeknames}}" wx:key="*this">{{item}}</view></view>
+          <view class="mini-grid">
+            <view wx:for="{{discreteCells}}" wx:key="key" class="mini-day {{item.blank?'blank':''}} {{item.selected?'selected':''}} {{item.isToday?'today':''}}" data-date="{{item.blank?'':item.key}}" bindtap="toggleDiscreteDate">
+              <text wx:if="{{!item.blank}}">{{item.day}}</text>
+            </view>
+          </view>
+        </view>
+
+        <view class="selected-date-summary">
+          <view class="between"><view class="form-label no-margin">已选择日期</view><view class="badge purple">{{form.dates.length}} 天</view></view>
+          <view wx:if="{{form.dates.length}}" class="selected-date-chips">
+            <view wx:for="{{form.dates}}" wx:key="*this" class="date-chip">{{item}}<text data-date="{{item}}" bindtap="removeDiscreteDate"> ×</text></view>
+          </view>
+          <view wx:else class="tiny empty-dates">请在上方日历选择至少一个日期</view>
+        </view>
+      </view>
+
+      <view class="switch-row">
+        <view>
+          <view class="h3">全天事件</view>
+          <view class="tiny">开启后不需要填写具体时间</view>
+        </view>
+        <switch checked="{{form.allDay}}" bindchange="toggleAllDay" color="#0F172A"/>
+      </view>
+
+      <view wx:if="{{!form.allDay}}" class="form-grid">
+        <view class="form-cell">
+          <view class="form-label">{{form.scheduleType==='continuous' ? '首日开始时间' : '开始时间'}}</view>
+          <picker mode="time" value="{{form.startTime}}" bindchange="bindStart"><view class="input">{{form.startTime}}</view></picker>
+        </view>
+        <view class="form-cell">
+          <view class="form-label">{{form.scheduleType==='continuous' ? '末日结束时间' : '结束时间'}}</view>
+          <picker mode="time" value="{{form.endTime}}" bindchange="bindEnd"><view class="input">{{form.endTime}}</view></picker>
+        </view>
+      </view>
+      <view wx:if="{{!form.allDay && form.scheduleType==='continuous' && form.durationDays>1}}" class="tiny time-help">连续多日事件：首日从开始时间起占用，中间日期按全天占用，最后一日占用至结束时间。</view>
+      <view wx:if="{{!form.allDay && form.scheduleType==='discrete'}}" class="tiny time-help">离散日期默认使用同一时间段；如某天时间不同，可单独建立另一组离散事件。</view>
+
+      <view class="form-label">地点</view>
+      <input class="input" placeholder="可选" value="{{form.location}}" bindinput="bindLocation"/>
+
+      <view class="switch-row">
+        <view><view class="h3">影响空闲窗口</view><view class="tiny">开启后，事件覆盖到的日期会参与 Free Window 判断</view></view>
+        <switch checked="{{form.blockFreeWindow}}" bindchange="toggleBlock" color="#0F172A"/>
+      </view>
+
+      <view class="form-label">备注</view>
+      <textarea class="input" placeholder="可选" value="{{form.note}}" bindinput="bindNote"/>
+
+      <view class="editor-actions">
+        <view class="btn secondary" bindtap="cancelForm">取消</view>
+        <view class="btn" bindtap="saveEvent">{{editingId ? '保存修改' : '保存事件'}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{events.length}}" class="event-list">
+    <view wx:for="{{events}}" wx:key="id" class="card personal-card">
+      <view class="date-badge"><view class="date-day">{{item.day}}</view><view class="tiny">{{item.month}}月</view></view>
+      <view class="event-body">
+        <view class="between">
+          <view class="h2 personal-title">{{item.title}}</view>
+          <view class="edit-link" data-id="{{item.id}}" bindtap="editEvent">编辑</view>
+        </view>
+        <view class="chip-row">
+          <view class="badge purple">{{item.category}}</view>
+          <view class="badge">{{item.scheduleLabel}}</view>
+          <view wx:if="{{item.blockFreeWindow!==false}}" class="badge">占用空闲日</view>
+        </view>
+        <view class="event-date-text">{{item.dateText}}</view>
+        <view class="event-meta">{{item.timeText}}<text wx:if="{{item.location}}"> · {{item.location}}</text></view>
+        <view wx:if="{{item.note}}" class="note">{{item.note}}</view>
+        <view class="delete-link" data-id="{{item.id}}" bindtap="remove">删除</view>
+      </view>
+    </view>
+  </view>
+  <view wx:else class="card empty">还没有个人事件。<br/>可添加单次、连续多日或离散日期安排。</view>
+  <view class="safe-bottom"></view>
+</view>

@@ -1,0 +1,54 @@
+{
+  "pages": [
+    "pages/today/today",
+    "pages/week/week",
+    "pages/calendar/calendar",
+    "pages/tasks/tasks",
+    "pages/more/more",
+    "pages/courses/courses",
+    "pages/course-detail/course-detail",
+    "pages/exams/exams",
+    "pages/free/free",
+    "pages/modules/modules",
+    "pages/personal/personal",
+    "pages/adjustments/adjustments",
+    "pages/settings/settings"
+  ],
+  "window": {
+    "navigationBarTitleText": "课序",
+    "navigationBarBackgroundColor": "#F8FAFC",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F8FAFC"
+  },
+  "tabBar": {
+    "color": "#64748B",
+    "selectedColor": "#0F172A",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/today/today",
+        "text": "今天"
+      },
+      {
+        "pagePath": "pages/week/week",
+        "text": "周课表"
+      },
+      {
+        "pagePath": "pages/calendar/calendar",
+        "text": "日历"
+      },
+      {
+        "pagePath": "pages/tasks/tasks",
+        "text": "任务"
+      },
+      {
+        "pagePath": "pages/more/more",
+        "text": "更多"
+      }
+    ]
+  },
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents",
+  "sitemapLocation": "sitemap.json"
+}

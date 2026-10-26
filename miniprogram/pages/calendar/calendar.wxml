@@ -1,0 +1,66 @@
+<view class="container">
+  <view class="calendar-head">
+    <view class="icon-btn" bindtap="prev">‹</view>
+    <view class="month-title-wrap"><view class="h1">{{title}}</view><view class="tiny">课程 · 考试 · DDL · 个人事件</view></view>
+    <view class="icon-btn" bindtap="next">›</view>
+  </view>
+
+  <view class="legend">
+    <view><text class="dot lecture"></text>课程</view>
+    <view><text class="dot examdot"></text>考试</view>
+    <view><text class="dot taskdot"></text>DDL</view>
+    <view><text class="dot personaldot"></text>个人</view>
+  </view>
+
+  <view class="calendar-card">
+    <view class="weeknames"><view wx:for="{{weeknames}}" wx:key="*this">{{item}}</view></view>
+    <view class="month-grid">
+      <view wx:for="{{cells}}" wx:key="key" class="day-cell {{item.selected?'selected':''}} {{item.isToday?'today':''}}" data-date="{{item.blank?'':item.key}}" bindtap="selectTap">
+        <view wx:if="{{!item.blank}}">
+          <view class="day-num">{{item.day}}</view>
+          <view class="dots">
+            <text wx:if="{{item.eventCount}}" class="dot lecture"></text>
+            <text wx:if="{{item.hasExam}}" class="dot examdot"></text>
+            <text wx:if="{{item.taskCount}}" class="dot taskdot"></text>
+            <text wx:if="{{item.personalCount}}" class="dot personaldot"></text>
+          </view>
+          <view wx:if="{{item.holiday}}" class="holiday-mark">休</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="selected-head">
+    <view>
+      <view class="section-title selected-label">SELECTED DAY</view>
+      <view class="h2">{{selected}}</view>
+    </view>
+    <view class="btn small secondary" bindtap="addPersonal">＋ 个人事件</view>
+  </view>
+
+  <view class="card day-detail">
+    <view wx:if="{{holiday}}" class="holiday">{{holiday.name}}</view>
+
+    <view wx:for="{{selectedEvents}}" wx:key="id" class="event {{item.type==='exam'?'exam':''}}" style="border-left-color:{{item.type==='exam'?'#E11D48':item.color}}" bindtap="openCourse" data-code="{{item.courseCode}}">
+      <view class="between">
+        <view class="event-title">{{item.courseCode || item.code}} {{item.displayName}}</view>
+        <view class="chip-row"><view wx:if="{{item.rescheduled}}" class="badge purple">已调课</view><view wx:if="{{item.source==='custom'}}" class="badge purple">个人添加</view><view class="badge {{item.type==='exam'?'warn':''}}">{{item.type}}</view></view>
+      </view>
+      <view class="event-meta">{{item.timeText}} · {{item.venue || '地点待确认'}}</view>
+      <view wx:if="{{item.rescheduled}}" class="tiny">原安排：{{item.originalDate}} · {{item.originalStartTime}}–{{item.originalEndTime}} · {{item.originalVenue || 'TBC'}}</view>
+      <view wx:if="{{item.note}}" class="tiny personal-note">{{item.note}}</view>
+    </view>
+
+    <view wx:for="{{selectedPersonal}}" wx:key="id" class="event personal-event" bindtap="editPersonal" data-id="{{item.id}}">
+      <view class="between"><view class="event-title">{{item.displayName}}</view><view class="badge purple">个人</view></view>
+      <view class="event-meta">{{item.timeText}}<text wx:if="{{item.location}}"> · {{item.location}}</text></view>
+      <view wx:if="{{item.note}}" class="tiny personal-note">{{item.note}}</view>
+    </view>
+
+    <view wx:for="{{selectedTasks}}" wx:key="id" class="task-row">
+      <view class="badge">DDL</view><view class="task-title">{{item.title}}</view><view class="tiny">{{item.dueTime || ''}}</view>
+    </view>
+
+    <view wx:if="{{!selectedEvents.length&&!selectedPersonal.length&&!selectedTasks.length&&!holiday}}" class="empty">这一天没有固定事项。</view>
+  </view>
+</view>
