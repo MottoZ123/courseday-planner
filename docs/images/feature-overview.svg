@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="450" viewBox="0 0 1080 450" role="img" aria-labelledby="title desc">
+<title id="title">课序 · CourseDay Planner功能概览</title><desc id="desc">功能示意图，非运行截图。所有私人数据保存在本机。</desc>
+<rect width="1080" height="450" rx="24" fill="#F8F1E5"/>
+<g font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif">
+<text x="40" y="61" font-size="30" font-weight="700" fill="#356859">课序 · CourseDay Planner</text>
+<text x="40" y="99" font-size="20" fill="#51483E">把课程、考试与个人安排放进同一份日程。</text>
+<rect x="40" y="136" width="320" height="222" rx="18" fill="#FFFDF7" stroke="#E3D8C8"/>
+<text x="64" y="180" font-size="23" font-weight="700" fill="#356859">01  查看日程</text>
+<text x="64" y="225" font-size="18" fill="#3E2C24">今日课程与下一节课</text>
+<text x="64" y="268" font-size="18" fill="#3E2C24">实际周课表 / Module 模板</text>
+<text x="64" y="311" font-size="18" fill="#3E2C24">月历与课程详情</text>
+<rect x="380" y="136" width="320" height="222" rx="18" fill="#FFFDF7" stroke="#E3D8C8"/>
+<text x="404" y="180" font-size="23" font-weight="700" fill="#356859">02  安排变化</text>
+<text x="404" y="225" font-size="18" fill="#3E2C24">任务与个人事件</text>
+<text x="404" y="268" font-size="18" fill="#3E2C24">自定义考试</text>
+<text x="404" y="311" font-size="18" fill="#3E2C24">单节调课、停课与恢复</text>
+<rect x="720" y="136" width="320" height="222" rx="18" fill="#FFFDF7" stroke="#E3D8C8"/>
+<text x="744" y="180" font-size="23" font-weight="700" fill="#356859">03  规划时间</text>
+<text x="744" y="225" font-size="18" fill="#3E2C24">空闲时间窗口</text>
+<text x="744" y="268" font-size="18" fill="#3E2C24">每周负担与进度</text>
+<text x="744" y="311" font-size="18" fill="#3E2C24">Tutorial 分组筛选</text>
+<text x="40" y="405" font-size="17" fill="#625B51">微信原生小程序 · 私人数据仅存本机 · 功能示意，非运行截图</text>
+</g></svg>
