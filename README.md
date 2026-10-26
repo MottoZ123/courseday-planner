@@ -4,9 +4,9 @@
 
 **功能版本：V2.1.7 · 13 个页面 · 私人数据仅存本机 · MIT 开源**
 
-![课时记功能概览：查看日程、安排变化、规划时间](docs/images/feature-overview.svg)
+<img src="docs/images/app-preview.png" alt="课时记今日页面，具体课程信息已遮挡" width="360">
 
-> 上图为功能示意，不是真机截图。项目面向不同学校、专业和年级；随包示例是一组可替换的课程选集，不代表任何学校的全校课表。
+截图中的具体课程信息已做马赛克处理。课表可按自己的学校、专业和年级替换。
 
 ## 可以做什么
 
@@ -31,7 +31,7 @@ flowchart LR
     D --> E[查看空闲窗口与每周负担]
 ```
 
-公共课表静态保存在源码中，个人修改和设置保存在微信 Storage。临时调整不会覆盖公共课表；项目保持 V2.1.7 的纯本地架构，无服务器、账号或跨设备同步。
+公共课表静态保存在源码中，个人修改和设置保存在微信 Storage。临时调整独立保存，应用采用纯本地架构。
 
 ## 快速开始
 
@@ -52,17 +52,17 @@ python tools/prepublish_check.py
 python tools/workflow.py all
 ```
 
-全量工作流运行回归、页面结构、语法与隐私检查，生成 `release/` 下 ZIP、SHA-256 与包内清单。GitHub Actions 只运行离线测试，无部署或上传密钥。
+全量工作流运行回归、页面结构、语法与隐私检查，生成 `release/` 下 ZIP、SHA-256 与包内清单。GitHub Actions 自动运行离线回归。
 
-## 版本基线
+## 示例课表
 
-保留 13 个页面、163 条静态事件、99 次 Lecture、8 次 Final、12 个精确分组 Tutorial 和 21 个 `nonBlocking` Tutorial 候选窗口。保留原事件 ID、日期、时间及所有原版功能，不合入 V2.1.8。
+应用包含 13 个页面。示例课表提供 163 条静态事件，包括 99 次 Lecture、8 次 Final、12 个精确分组 Tutorial 和 21 个 `nonBlocking` Tutorial 候选窗口。
 
-`source/sample-timetable-2026-27.xlsx` 是去标识的项目整理示例，`tools/build_schedule.py` 可重建事件。原上传资料、官方 PDF、个人记录与私人截图不在公开包内。
+`source/sample-timetable-2026-27.xlsx` 是去标识的项目整理示例，`tools/build_schedule.py` 可重建事件。可用自己的课程数据更新示例。
 
 ## 数据与隐私
 
-保留 `maa_v2_tasks`、`maa_v2_personal_events`、`maa_v2_custom_exams`、`maa_v2_reschedules`、`maa_v2_settings`，改名不清空旧数据。静态课表不会被个人修改覆盖。详见 `DESIGN.md` 与 `PRIVACY_AND_DATA.md`。
+任务、个人事件、自定义考试、调课和设置分别存于本机的 `maa_v2_tasks`、`maa_v2_personal_events`、`maa_v2_custom_exams`、`maa_v2_reschedules`、`maa_v2_settings`。静态课表与个人调整分开保存，更新时沿用已有存储键。详见 [设计说明](DESIGN.md) 与 [数据说明](PRIVACY_AND_DATA.md)。
 
 ## 参与贡献
 
