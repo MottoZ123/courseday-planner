@@ -1,4 +1,4 @@
-# Codex rules — CourseDay Planner V2.1.7 public-source
+# Codex rules — M Plan · 课时记 V2.1.7 public-source
 
 - BASELINE IS V2.1.7 (not V2.1.8). Do not merge or add shared meet countdown, CloudBase,
   cloudfunctions, server, API endpoints, account systems, or admin OpenID logic.

@@ -4,7 +4,7 @@
 
 ## 更新基线
 
-- 上一代码包：CourseDay Planner V2.1.2
+- 上一代码包：M Plan · 课时记 V2.1.2
 - 新教学计划：MAA Teaching Plan 2026-27，文件日期 2026-08-18
 - 当前固定选课：
   - PMAA7001

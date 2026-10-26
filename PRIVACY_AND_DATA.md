@@ -1,6 +1,6 @@
 # Privacy and data treatment (V2.1.7 public-source)
 
-**Public repository contains:** static 2026–27 timetable EXAMPLE data for CourseDay Planner
+**Public repository contains:** static 2026–27 timetable EXAMPLE data for M Plan · 课时记
 (dates/classes/tutorial windows/exams, 163 events), generic source code, and
 an anonymous project-generated workbook to reproduce the sample.
 **It does not contain:** student name/ID, account, personal tasks/events,

@@ -1,7 +1,7 @@
 module.exports = {
   "version": "2026.08.30-v2.1.7",
   "academicYear": "2026-27",
-  "title": "CourseDay Planner V2.1.7",
+  "title": "M Plan · 课时记 V2.1.7",
   "selectedCourses": [
     "PMAA7001",
     "PMAA7002",

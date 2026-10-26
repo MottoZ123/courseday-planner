@@ -15,7 +15,7 @@
     "pages/settings/settings"
   ],
   "window": {
-    "navigationBarTitleText": "课序",
+    "navigationBarTitleText": "课时记",
     "navigationBarBackgroundColor": "#F8FAFC",
     "navigationBarTextStyle": "black",
     "backgroundColor": "#F8FAFC"

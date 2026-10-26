@@ -1,3 +1,3 @@
 App({
-  globalData: { appName: '课序 · CourseDay Planner V2.1.7' }
+  globalData: { appName: 'M Plan · 课时记 V2.1.7' }
 });

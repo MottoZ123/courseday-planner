@@ -1,4 +1,4 @@
-# CourseDay Planner V2.1.7 设计说明
+# M Plan · 课时记 V2.1.7 设计说明
 
 ## 核心原则
 

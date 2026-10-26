@@ -1,4 +1,4 @@
-var SHARE_TITLE='CourseDay Planner｜2026–27 课程与日程工具';
+var SHARE_TITLE='M Plan · 课时记｜2026–27 课程与日程工具';
 var SHARE_PATH='/pages/today/today?from=share';
 
 function appMessage(){

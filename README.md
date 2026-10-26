@@ -1,10 +1,10 @@
-# 课序 · CourseDay Planner
+# M Plan · 课时记
 
-把课程、考试、任务和个人日程放进同一份时间表。课序是一款微信原生的本地课表工具，适合需要在周课表与月历之间切换、处理临时调课并寻找空闲时间的用户。
+把课程、考试、任务和个人日程放进同一份时间表。课时记是一款微信原生的本地课表工具，适合需要在周课表与月历之间切换、处理临时调课并寻找空闲时间的用户。
 
 **功能版本：V2.1.7 · 13 个页面 · 私人数据仅存本机 · MIT 开源**
 
-![课序功能概览：查看日程、安排变化、规划时间](docs/images/feature-overview.svg)
+![课时记功能概览：查看日程、安排变化、规划时间](docs/images/feature-overview.svg)
 
 > 上图为功能示意，不是真机截图。项目面向不同学校、专业和年级；随包示例是一组可替换的课程选集，不代表任何学校的全校课表。
 
@@ -64,12 +64,7 @@ python tools/workflow.py all
 
 保留 `maa_v2_tasks`、`maa_v2_personal_events`、`maa_v2_custom_exams`、`maa_v2_reschedules`、`maa_v2_settings`，改名不清空旧数据。静态课表不会被个人修改覆盖。详见 `DESIGN.md` 与 `PRIVACY_AND_DATA.md`。
 
-## 贡献者
-
-| Contributor | 角色 |
-| --- | --- |
-| [MottoZ123](https://github.com/MottoZ123) | 项目维护者 |
-| [Mary-Wym](https://github.com/Mary-Wym) | 共同开发者 / Contributor |
+## 参与贡献
 
 欢迎通过 Issue 提交问题，或通过 Pull Request 改进项目。开发约定见 [CONTRIBUTING.md](CONTRIBUTING.md) 和 [AGENTS.md](AGENTS.md)。请使用虚构数据复现问题，避免提交私人记录、备份或真实 AppID。
 

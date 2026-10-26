@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1080" height="450" viewBox="0 0 1080 450" role="img" aria-labelledby="title desc">
-<title id="title">课序 · CourseDay Planner功能概览</title><desc id="desc">功能示意图，非运行截图。所有私人数据保存在本机。</desc>
+<title id="title">M Plan · 课时记功能概览</title><desc id="desc">功能示意图，非运行截图。所有私人数据保存在本机。</desc>
 <rect width="1080" height="450" rx="24" fill="#F8F1E5"/>
 <g font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif">
-<text x="40" y="61" font-size="30" font-weight="700" fill="#356859">课序 · CourseDay Planner</text>
+<text x="40" y="61" font-size="30" font-weight="700" fill="#356859">M Plan · 课时记</text>
 <text x="40" y="99" font-size="20" fill="#51483E">把课程、考试与个人安排放进同一份日程。</text>
 <rect x="40" y="136" width="320" height="222" rx="18" fill="#FFFDF7" stroke="#E3D8C8"/>
 <text x="64" y="180" font-size="23" font-weight="700" fill="#356859">01  查看日程</text>
